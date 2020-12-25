@@ -183,9 +183,9 @@ class BookingController extends Controller
 
                 $booking->check_in_time = Carbon::now();
 
-                $user = User::where('id',$data['user_id'])->first();
+                $user = User::where('id',Auth::id())->first();
 
-                $data = array('name' => $user->email,'room_name' => $room->room_name, 'cekin_date' => date('d-m-Y'));
+                $data = array('name' => $user->email,'room_name' => $room->room_name, 'cekin_date' => date('d-m-Y'),'inout_type' => 'Cek In');
     
                 Mail::to($user->email)->send(new SendEmailCekIn($data));
 
@@ -194,6 +194,12 @@ class BookingController extends Controller
             {
 
                 $booking->check_out_time = Carbon::now();
+
+                $user = User::where('id',Auth::id())->first();
+
+                $data = array('name' => $user->email,'room_name' => $room->room_name, 'cekin_date' => date('d-m-Y'),'inout_type' => 'Cek Out');
+    
+                Mail::to($user->email)->send(new SendEmailCekIn($data));
 
             }else{
 
@@ -210,5 +216,11 @@ class BookingController extends Controller
             return response()->json(['bad'=> $this->bad], $this->statusBad);
 
         }
+    }
+    public function TestSendMail(){
+        $data = array('name' => 'text','room_name' => 'test', 'date_book' =>'text');
+
+        Mail::to("sahrunnawawi995@gmail.com")->send(new SendEmail($data));
+
     }
 }
