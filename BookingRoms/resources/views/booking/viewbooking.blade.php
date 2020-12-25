@@ -11,7 +11,9 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="col-lg-6">
+                        @if(isset($viewdata->photo))
                         <img src="{!! Route('storage',['filename'=>$viewdata->photo]) !!}" class="img-fluid" alt="image">
+                        @endif
                         </div>
                         </div>
                         <div class="col-lg-6">
