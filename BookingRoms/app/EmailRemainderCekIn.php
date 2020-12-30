@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -9,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SendEmailCekIn extends Mailable
+class EmailRemainderCekIn extends Mailable
 {
     use Queueable, SerializesModels;
  
@@ -31,11 +30,13 @@ class SendEmailCekIn extends Mailable
      */
     public function build()
     {
-        return $this->from('sahrun.raja.tega@gmail.com')
-                   ->view('email.cekinroom')
-                   ->with(
-                    [
-                        'data' =>  $this->dataEmail,
-                    ]);
+
+        $email = \config('mail.mailfromaddress');
+        return $this->from($email)
+                        ->view('email.remaindercekinroom')
+                        ->with(
+                            [
+                                'data' =>  $this->dataEmail,
+                ]);
     }
 }

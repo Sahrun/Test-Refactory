@@ -62,4 +62,5 @@ Route::get('put-get-stream/{filename}', function($filename) {
 
 })->name('storage');
 
-// Route::get('/sendMAil', 'BookingController@TestSendMail');
+Route::get('/sendMAil', 'BookingController@TestSendMail');
+Route::get('/sendMAil1', 'BookingController@TestSendMail1');

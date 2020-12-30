@@ -5,4 +5,4 @@
 <br/>
 <br/>
 
-Silahkan <a href="{{$data['url']}}">Klik</a> untuk cek in
+Silahkan <a href="{{$data['url']}}">Klik</a> untuk cek in 

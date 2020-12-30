@@ -8,7 +8,7 @@ use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Query;
 
-class UsersQuery extends Query
+class UserQuery extends Query
 {
     protected $attributes = [
         'name' => 'users',
@@ -40,4 +40,3 @@ class UsersQuery extends Query
         return User::all();
     }
 }
-?>

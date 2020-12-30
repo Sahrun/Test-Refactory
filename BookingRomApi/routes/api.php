@@ -36,4 +36,4 @@ Route::group([
         Route::get('/list','Api\BookingController@index');
 });
 
-Route::get('/sendMAil', 'BookingController@TestSendMail');
+Route::get('/sendMAil', 'Api\BookingController@TestSendMail');

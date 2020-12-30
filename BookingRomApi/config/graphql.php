@@ -30,6 +30,7 @@ return [
     // ]
     //
     'routes' => '{graphql_schema?}',
+    // 'routes' => 'query/{graphql_schema?}',
 
     // The controller to use in GraphQL request. Either a string that will apply
     // to both query and mutation or an array containing the key 'query' and/or
@@ -68,58 +69,36 @@ return [
     // Example:
     //
     'schema' => 'default',
-    
-     'schemas' => [
-         'default' => [
-             'query' => [
-                App\GraphQL\Queries\UsersQuery::class
-             ],
-             'mutation' => [
-    
-             ]
-         ],
-         'user' => [
-             'query' => [
-                 'profile' => 'App\GraphQL\Query\ProfileQuery'
-             ],
-             'mutation' => [
-    
-             ],
-             'middleware' => ['auth'],
-         ],
-         'user/me' => [
-             'query' => [
-                 'profile' => 'App\GraphQL\Query\MyProfileQuery'
-             ],
-             'mutation' => [
-    
-             ],
-             'middleware' => ['auth'],
-         ],
+    'schemas' => [
+        'default' => [
+            'query' => [
+                'users' => App\GraphQL\Queries\UserQuery::class,
+                'rooms' => App\GraphQL\Queries\RoomQuery::class,
+                'bookings' => App\GraphQL\Queries\BookingQuery::class
+            ],
+            'mutation' => [
+                // ExampleMutation::class,
+                'createRoom' => App\GraphQL\Mutations\CreateRoomMutation::class,
+                'bookingNow' => App\GraphQL\Mutations\BookingNowMutation::class
+            ],
+        ],
+        // 'user' => [
+        //     'query' => [
+        //         // App\GraphQL\Queries\ProfileQuery::class
+        //     ],
+        //     'mutation' => [
+                
+        //     ],
+        //     // 'middleware' => ['auth'],
+        // ],
     ],
-    //
-    // 'schemas' => [
-    //     'default' => [
-    //         'query' => [
-    //             // 'example_query' => ExampleQuery::class,
-    //         ],
-    //         'mutation' => [
-    //             // 'example_mutation'  => ExampleMutation::class,
-    //         ],
-    //         'middleware' => [],
-    //         'method' => ['get', 'post'],
-    //     ],
-    // ],
 
-    // The types available in the application. You can then access it from the
-    // facade like this: GraphQL::type('user')
-    //
-    // Example:
-    //
     'types' => [
-        'user' => App\GraphQL\Types\UserType::class
+        'user'    => App\GraphQL\Types\UserType::class,
+        'room'    => App\GraphQL\Types\RoomType::class,
+        'booking' => App\GraphQL\Types\BookingType::class,
+        'File'    => \Rebing\GraphQL\Support\UploadType::class,
     ],
-   
 
     // The types will be loaded on demand. Default is to load all types on each request
     // Can increase performance on schemes with many types

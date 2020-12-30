@@ -12,6 +12,7 @@ use App\SendEmail;
 use Illuminate\Support\Facades\Mail;
 use App\User;
 use App\SendEmailCekIn;
+use App\EmailRemainderCekIn;
 
 class BookingController extends Controller
 {
@@ -231,9 +232,45 @@ class BookingController extends Controller
     }
 
     public function TestSendMail(){
-        $data = array('name' => 'text','room_name' => 'test', 'date_book' =>'text');
+        $url =  \config('app.url')."/booking/view?bookingId=";
+        $data = array('name' => 'text','room_name' => 'test', 'cekin_date' =>'text' ,'url' => $url);
 
-        Mail::to("sahrunnawawi995@gmail.com")->send(new SendEmail($data));
+        $bookingToday  = Booking::join('rooms as rom', 'rom.id', '=', 'bookings.room_id')
+        ->join('users as user','user.id','=','bookings.user_id')
+        ->select('rom.room_name AS room_name','user.email AS email','bookings.booking_time AS booking_time','bookings.id AS bookingid')
+        ->where('bookings.booking_time','=',Carbon::now()->format('Y-m-d'))
+        ->whereNull('bookings.check_in_time')->get();
+
+        var_dump($bookingToday);
+        // foreach($bookingToday AS $key => $value){
+           
+        //     $data = array('cekin_date' => $value->booking_time,
+        //                    'url' => $url.$value->bookingid,
+        //                    'name' => $value->email,
+        //                    'room_name' => $value->room_name);
+        //     Mail::to($value->email)->send(new EmailRemainderCekIn($data));
+        // }
+
+    }
+
+    public function TestSendMail1(){
+        $url =  \config('app.url')."/booking/view?bookingId=";
+        $data = array('name' => 'text','room_name' => 'test', 'cekin_date' =>'text' ,'url' => $url);
+
+        $bookingToday  = Booking::join('rooms as rom', 'rom.id', '=', 'bookings.room_id')
+        ->join('users as user','user.id','=','bookings.user_id')
+        ->select('rom.room_name AS room_name','user.email AS email','bookings.booking_time AS booking_time','bookings.id AS bookingid')
+        ->where('bookings.booking_time','=',Carbon::now()->format('Y-m-d'))
+        ->whereNull('bookings.check_in_time')->get();
+
+        foreach($bookingToday AS $key => $value){
+           
+            $data = array('cekin_date' => $value->booking_time,
+                           'url' => $url.$value->bookingid,
+                           'name' => $value->email,
+                           'room_name' => $value->room_name);
+            Mail::to($value->email)->send(new EmailRemainderCekIn($data));
+        }
 
     }
 }
